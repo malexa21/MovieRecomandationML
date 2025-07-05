@@ -1,6 +1,7 @@
 import { useState } from 'react';//Static data => No need for useState
 import './App.css';
 import Movies from'./MoviesDataBase.jsx';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const MovieList = () => {
   return (
