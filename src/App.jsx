@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import './App.css';
 import Movies from './MoviesDataBase.jsx';
+import MLMovies from './MLFunction.jsx';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const Interface = () => {
-  // Initialize state with imported movies
   const [movies, setMovies] = useState(Movies);
   const [selectedGenre, setSelectedGenre] = useState('All');
 
@@ -75,6 +75,10 @@ const Interface = () => {
         </div>
         <div className="result">
           <p>{getStatusMessage()}</p>
+        </div>
+        <div className="blank"/>
+        <div className='recommended'>
+          <MLMovies/>
         </div>
       </div>
 

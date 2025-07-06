@@ -16,6 +16,14 @@
   overflow-y: auto;
 }
 
+.blank{
+  height:20px;
+}
+
+.recommended{
+  color:#eee6e6;
+}
+
 .title {
   font-size: 1.8rem;
   margin-bottom: 30px;
