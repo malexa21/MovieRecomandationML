@@ -1,33 +1,47 @@
-import { useState } from 'react';//Static data => No need for useState
+import { useState } from 'react';
 import './App.css';
-import Movies from'./MoviesDataBase.jsx';
+import Movies from './MoviesDataBase.jsx';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
-const MovieList = () => {
-  return (
-    <div>
-      {Movies.map(movie => (
-        <div key={movie.id}>
-          <h2>{movie.title} ({movie.year})</h2>
-          <p>Genres: {movie.genres.join(', ')}</p>
-          <p>Rating: {movie.rating}/10</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 const Interface = () => {
-  const [selectedGenre, setSelectedGenre] = useState('');
+  // Initialize state with imported movies
+  const [movies, setMovies] = useState(Movies);
+  const [selectedGenre, setSelectedGenre] = useState('All');
+
   const genres = ['All', 'Action', 'Comedy', 'Drama', 'Sci-Fi', 'Horror'];
 
-  const handleGenreClick = (genre) => {
-    setSelectedGenre(genre);
+  const toggleFavorite = (id) => {
+    const updatedMovies = movies.map(movie => {
+      if (movie.id === id) {
+        return { ...movie, isFavorite: !movie.isFavorite };
+      } else {
+        return movie;
+      }
+    });
+    setMovies(updatedMovies);
   };
 
-  const filteredMovies = selectedGenre === 'All' || !selectedGenre
-    ? Movies
-    : Movies.filter(movie => movie.genres.includes(selectedGenre));
+  const getFilteredMovies = () => {
+    if (selectedGenre === 'All') {
+      return movies;
+    } else {
+      return movies.filter(movie => {
+        if (movie.genres.includes(selectedGenre)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+  };
+
+  const getStatusMessage = () => {
+    if (selectedGenre === 'All') {
+      return 'Showing all movies';
+    } else {
+      return `🎥 Showing: ${selectedGenre}`;
+    }
+  };
 
   return (
     <div className="app">
@@ -35,37 +49,69 @@ const Interface = () => {
       <div className="sidebar">
         <h1 className="title">🎬 Movie Recommender</h1>
         <div className="button-group">
-          {genres.map((genre) => (
-            <button
-              key={genre}
-              onClick={() => handleGenreClick(genre)}
-              className={`genre-button ${
-                selectedGenre === genre ? 'active' : ''
-              }`}
-            >
-              {genre}
-            </button>
-          ))}
+          {genres.map((genre) => {
+            if (genre === selectedGenre) {
+              return (
+                <button
+                  key={genre}
+                  className="genre-button active"
+                  onClick={() => setSelectedGenre(genre)}
+                >
+                  {genre}
+                </button>
+              );
+            } else {
+              return (
+                <button
+                  key={genre}
+                  className="genre-button"
+                  onClick={() => setSelectedGenre(genre)}
+                >
+                  {genre}
+                </button>
+              );
+            }
+          })}
         </div>
         <div className="result">
-          {selectedGenre ? (
-            <p>🎥 Showing: <strong>{selectedGenre}</strong></p>
-          ) : (
-            <p>Select a genre to filter</p>
-          )}
+          <p>{getStatusMessage()}</p>
         </div>
       </div>
 
-      {/* Right Content - Scrollable Movie Cards */}
+      {/* Right Side Content - Scrollable Movie Cards */}
       <div className="content">
         <div className="movie-grid">
-          {filteredMovies.map((movie) => (
-            <div key={movie.id} className="movie-card">
-              <h3>{movie.title} ({movie.year})</h3>
-              <p>Genres: {movie.genres.join(', ')}</p>
-              <p>⭐ {movie.rating}/10</p>
-            </div>
-          ))}
+          {getFilteredMovies().map((movie) => {
+            if (movie.isFavorite) {
+              return (
+                <div key={movie.id} className="movie-card favorite">
+                  <button 
+                    onClick={() => toggleFavorite(movie.id)}
+                    className="heart-button"
+                  >
+                    <FaHeart className="heart-icon filled" />
+                  </button>
+                  <h3>{movie.title} ({movie.year})</h3>
+                  <p>Genres: {movie.genres.join(', ')}</p>
+                  <p>⭐ {movie.rating}/10</p>
+                </div>
+              );
+            } else {
+              return (
+                <div key={movie.id} className="movie-card">
+                  <button 
+                    onClick={() => toggleFavorite(movie.id)}
+                    className="heart-button"
+                  >
+                    <FaRegHeart className="heart-icon" />
+                  </button>
+                  <h3>{movie.title} ({movie.year})</h3>
+                  <p>Genres: {movie.genres.join(', ')}</p>
+                  <p>⭐ {movie.rating}/10</p>
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
     </div>

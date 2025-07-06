@@ -4,140 +4,160 @@ const Movies =[
     title: "Inception",
     genres: ["Sci-Fi", "Thriller"],
     year: 2010,
-    rating: 8.8
+    rating: 8.8,
+    isFavorite: false,
   },
   {
     id: 2,
     title: "The Shawshank Redemption",
     genres: ["Drama"],
     year: 1994,
-    rating: 9.3
+    rating: 9.3,
+    isFavorite: false,
   },
   {
     id: 3,
     title: "The Dark Knight",
     genres: ["Action", "Crime", "Drama"],
     year: 2008,
-    rating: 9.0
+    rating: 9.0,
+    isFavorite: false,
   },
   {
     id: 4,
     title: "Pulp Fiction",
     genres: ["Crime", "Drama"],
     year: 1994,
-    rating: 8.9
+    rating: 8.9,
+    isFavorite: false,
   },
   {
     id: 5,
     title: "Forrest Gump",
     genres: ["Drama", "Romance"],
     year: 1994,
-    rating: 8.8
+    rating: 8.8,
+    isFavorite: false,
   },
   {
     id: 6,
     title: "The Matrix",
     genres: ["Sci-Fi", "Action"],
     year: 1999,
-    rating: 8.7
+    rating: 8.7,
+    isFavorite: false,
   },
   {
     id: 7,
     title: "Parasite",
     genres: ["Drama", "Thriller"],
     year: 2019,
-    rating: 8.6
+    rating: 8.6,
+    isFavorite: false,
   },
   {
     id: 8,
     title: "Interstellar",
     genres: ["Sci-Fi", "Adventure", "Drama"],
     year: 2014,
-    rating: 8.6
+    rating: 8.6,
+    isFavorite: false,
   },
   {
     id: 9,
     title: "The Godfather",
     genres: ["Crime", "Drama"],
     year: 1972,
-    rating: 9.2
+    rating: 9.2,
+    isFavorite: false,
   },
   {
     id: 10,
     title: "Fight Club",
     genres: ["Drama"],
     year: 1999,
-    rating: 8.8
+    rating: 8.8,
+    isFavorite: false,
   },
   {
     id: 11,
     title: "Spirited Away",
     genres: ["Animation", "Adventure", "Family"],
     year: 2001,
-    rating: 8.6
+    rating: 8.6,
+    isFavorite: false,
   },
   {
     id: 12,
     title: "The Silence of the Lambs",
     genres: ["Crime", "Thriller", "Horror"],
     year: 1991,
-    rating: 8.6
+    rating: 8.6,
+    isFavorite: false,
   },
   {
     id: 13,
     title: "Gladiator",
     genres: ["Action", "Adventure", "Drama"],
     year: 2000,
-    rating: 8.5
+    rating: 8.5,
+    isFavorite: false,
   },
   {
     id: 14,
     title: "Whiplash",
     genres: ["Drama", "Music"],
     year: 2014,
-    rating: 8.5
+    rating: 8.5,
+    isFavorite: false,
   },
   {
     id: 15,
     title: "The Grand Budapest Hotel",
     genres: ["Comedy", "Drama", "Adventure"],
     year: 2014,
-    rating: 8.1
+    rating: 8.1,
+    isFavorite: false,
   },
   {
     id: 16,
     title: "Her",
     genres: ["Drama", "Romance", "Sci-Fi"],
     year: 2013,
-    rating: 8.0
+    rating: 8.0,
+    isFavorite: false,
   },
   {
     id: 17,
     title: "Mad Max: Fury Road",
     genres: ["Action", "Adventure", "Sci-Fi"],
     year: 2015,
-    rating: 8.1
+    rating: 8.1,
+    isFavorite: false,
   },
   {
     id: 18,
     title: "Get Out",
     genres: ["Horror", "Mystery", "Thriller"],
     year: 2017,
-    rating: 7.7
+    rating: 7.7,
+    isFavorite: false,
   },
   {
     id: 19,
     title: "La La Land",
     genres: ["Comedy", "Drama", "Music"],
     year: 2016,
-    rating: 8.0
+    rating: 8.0,
+    isFavorite: false,
   },
   {
     id: 20,
     title: "The Social Network",
     genres: ["Biography", "Drama"],
     year: 2010,
-    rating: 7.7
+    rating: 7.7,
+    isFavorite: false,
   }
 ];
 
