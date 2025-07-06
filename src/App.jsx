@@ -78,7 +78,7 @@ const Interface = () => {
         </div>
         <div className="blank"/>
         <div className='recommended'>
-          <MLMovies/>
+          <MLMovies favoriteMovieIds={[1]}/>
         </div>
       </div>
 
