@@ -59,12 +59,10 @@
 
 /* Scrollable Content */
 .content {
-  margin-left: 300px; /* Same as sidebar width */
+  margin-left: 350px; /* Same as sidebar width */
   flex: 1;
   padding: 30px;
   background: #ecf0f1;
-  overflow-y: auto;
-  height: 100vh;
 }
 
 .movie-grid {
@@ -73,12 +71,40 @@
   gap: 25px;
 }
 
+.heart-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1;
+}
+
+.heart-icon {
+  font-size: 1.5rem;
+  color: #ccc; /* Default color */
+  transition: all 0.2s ease;
+}
+
+.heart-icon.filled {
+  color: red; /* Filled heart color */
+}
+
+.heart-button:hover .heart-icon:not(.filled) {
+  color: #ff6b6b; /* Hover color */
+}
+
 .movie-card {
   background: white;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  position: relative;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .movie-card:hover {
