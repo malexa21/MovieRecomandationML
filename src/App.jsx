@@ -78,7 +78,7 @@ const Interface = () => {
         </div>
         <div className="blank"/>
         <div className='recommended'>
-          <MLMovies favoriteMovieIds={[1]}/>
+          <MLMovies favoriteMovieIds={toggleFavorite(movies.id)}/>
         </div>
       </div>
 
