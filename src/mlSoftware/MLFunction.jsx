@@ -1,5 +1,5 @@
 
-import Movies from './MoviesDataBase';
+import Movies from '../MoviesDataBase';
 
 const MLMovies = ({ favoriteMovieIds }) => {
 
@@ -18,7 +18,7 @@ const MLMovies = ({ favoriteMovieIds }) => {
       movie.genres.forEach(genre => {
         learnedData.likedGenres[genre] = (learnedData.likedGenres[genre] || 0) + 1;//calculeaza aparitia fiecarui gen comun, cele neexistente fiind anulate
       });
-      learnedData.avgRating += movie.rating;//aduna rating-ul tuturor filmelor care au acelasi gen
+      learnedData.avgRating += movie.rating;//aduna rating-ul tuturor filmelor favorite
     });
     
     learnedData.avgRating /= favoriteMovies.length;//calculeaza rating-ul mediu necesar
