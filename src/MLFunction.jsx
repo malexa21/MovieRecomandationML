@@ -1,83 +1,77 @@
-import { useState, useEffect } from 'react';
+
 import Movies from './MoviesDataBase';
 
 const MLMovies = ({ favoriteMovieIds }) => {
-  const [recommendations, setRecommendations] = useState([]);
-  // initializam o lista goala unde sa tinem minte recomandarile si state-ul lor
 
-  console.log("ID-uri favorite primite:", favoriteMovieIds);
-
-  const getRecommendations = () => {
-    const favoriteMovies = Movies.filter(movie => 
-      favoriteMovieIds.includes(movie.id)
-    );
-// creeam o variabila care tine minte id-ul fiecarui film favorit
-
-    if (favoriteMovies.length === 0){
-      console.log("nu exista recomandari");
-      return[];
-    } 
-//verificam daca chiar exista filme favorite, altfel returnam o lista goala
-
-    //Definim pentru program la care detalii ale filmului trebuie sa se uite, astfel incat sa le invete
-    const favoriteFeatures = {
-        genres: {},
-        averageRating: 0,
-        recentYears: 0,
-        isFavorite: false,
+  const learnFromFavorites = () => {
+    const favoriteMovies = Movies.filter(movie => favoriteMovieIds.includes(movie.id));//filtreaza filmele favorite fara a crea un array pentru ele
+    
+    const learnedData = {//obiect de invatare
+      likedGenres: {},
+      avgRating: 0
     };
 
-    //Analizam elementele comune tuturor filmelor favorite
+    if (favoriteMovies.length === 0) return learnedData;//daca nu exista filme favorite, returneaza un obiect gol
+
+    // calculeaza preferinte precum gen sau rating
     favoriteMovies.forEach(movie => {
       movie.genres.forEach(genre => {
-        favoriteFeatures.genres[genre] = (favoriteFeatures.genres[genre] || 0) + 1;
+        learnedData.likedGenres[genre] = (learnedData.likedGenres[genre] || 0) + 1;//calculeaza aparitia fiecarui gen comun, cele neexistente fiind anulate
       });
-      favoriteFeatures.averageRating += movie.rating;
+      learnedData.avgRating += movie.rating;//aduna rating-ul tuturor filmelor care au acelasi gen
     });
-
-
-    const scoredMovies = Movies.map(movie => {
-      if (favoriteMovieIds.includes(movie.id))return null;//Pentru a nu analiza scorul fiecarui film favorit din nou, il anulam pe acesta pentru a verifica
-      //doar filmele care nu sunt deja favorite
-        
-        let score = 0;
-      
-      //verificam care genuri coincid
-        movie.genres.forEach(genre => {
-          score += favoriteFeatures.genres[genre] || 0; //alternativa la return 0
-        });
-
-        score += 10 - Math.abs(movie.rating - (favoriteFeatures.averageRating / favoriteMovies.length));
-
-        return { ...movie, score };
-
-      
-
-      // ne asiguram ca nu recomandam filmele deja favorite/vizionate
-
-    }).filter(Boolean); //
-
-    return scoredMovies.slice(0,3); //returnam doar primele 3 filme cu cele mai mari scoruri
+    
+    learnedData.avgRating /= favoriteMovies.length;//calculeaza rating-ul mediu necesar
+    return learnedData;//invata datele de recomandare
   };
 
-  useEffect(() => {
-    setRecommendations(getRecommendations());
-  }, [favoriteMovieIds]); // asigura rerandarea si recalcularea scorurilor de fiecare data cand filmele favortie se schimba sau sunt adaugate
+  //predictia pe baza datelor invatate
+  const predictMovieScore = (movie, learnedData) => {
+    let genreScore = 0;
 
-  return (
-    <div>
-      <h2>Recommendations</h2>
-        <ul>
-          {recommendations.map(movie => (
-            <li key={movie.id}>
-              <h3>{movie.title}</h3>
-              <p>Genres: {movie.genres.join(', ')}</p>
-            </li>
-          ))}
-        </ul>
-    
-    </div>
-  );
+    movie.genres.forEach(genre => {
+      genreScore += learnedData.likedGenres[genre] || 0;
+    });
+
+    const ratingDiff = Math.abs(movie.rating - learnedData.avgRating);
+
+    return genreScore + (10 - ratingDiff);
+};
+
+  const getRecommendations = () => {
+    const learnedData = learnFromFavorites();
+
+    return Movies
+      .filter(movie => !favoriteMovieIds.includes(movie.id)) // elimina favoritele
+      .map(movie => ({//creeaza o lista in care se afla doar filmele nefavorite
+        ...movie, score: predictMovieScore(movie, learnedData) //invata scorul pentru urmatoarele utilizari
+      }))
+      .slice(0, 1); // ia cel mai bun scor
+  };
+
+  const recommendations = getRecommendations();
+
+return (
+  <div>
+    <h2>Recommendations</h2>
+      {(() => {
+        if (!recommendations || recommendations.length === 0) {
+          return <p>No recommendations available</p>;
+        } else {
+          return (
+            <ul>
+              {recommendations.map(movie => movie && (
+                <li key={movie.id}>
+                  <h3>{movie.title}</h3>
+                  <p>Genres: {movie.genres.join(', ')}</p>
+                </li>
+              ))}
+            </ul>
+          );
+        }
+      })()}
+  </div>
+);
 };
 
 export default MLMovies;
