@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Movies from './MoviesDataBase.jsx';
-import MLMovies from './MLFunction.jsx';
+import MLMovies from './mlSoftware/MLFunction.jsx';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const Interface = () => {
@@ -78,7 +78,7 @@ const Interface = () => {
         </div>
         <div className="blank"/>
         <div className='recommended'>
-          <MLMovies favoriteMovieIds={[1,2,10]}/>
+          <MLMovies favoriteMovieIds={[17,23,40]}/>
         </div>
       </div>
 

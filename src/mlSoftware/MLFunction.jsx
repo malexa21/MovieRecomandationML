@@ -1,5 +1,5 @@
 
-import Movies from './MoviesDataBase';
+import Movies from '../MoviesDataBase';
 
 const MLMovies = ({ favoriteMovieIds }) => {
 
