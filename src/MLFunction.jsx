@@ -3,17 +3,23 @@ import Movies from './MoviesDataBase';
 
 const MLMovies = ({ favoriteMovieIds }) => {
   const [recommendations, setRecommendations] = useState([]);
+  // initializam o lista goala unde sa tinem minte recomandarile si state-ul lor
 
-  // Beginner-friendly ML-like recommendation function
+  console.log("ID-uri favorite primite:", favoriteMovieIds);
+
   const getRecommendations = () => {
-    // Step 1: Get favorite movies
     const favoriteMovies = Movies.filter(movie => 
       favoriteMovieIds.includes(movie.id)
     );
+// creeam o variabila care tine minte id-ul fiecarui film favorit
 
-    if (favoriteMovies.length === 0) return [];
+    if (favoriteMovies.length === 0){
+      console.log("nu exista recomandari");
+      return[];
+    } 
+//verificam daca chiar exista filme favorite, altfel returnam o lista goala
 
-    // Step 2: Extract features from favorites (simple "learning")
+    //Definim pentru program la care detalii ale filmului trebuie sa se uite, astfel incat sa le invete
     const favoriteFeatures = {
         genres: {},
         averageRating: 0,
@@ -21,42 +27,42 @@ const MLMovies = ({ favoriteMovieIds }) => {
         isFavorite: false,
     };
 
-    // Count genre popularity in favorites
+    //Analizam elementele comune tuturor filmelor favorite
     favoriteMovies.forEach(movie => {
       movie.genres.forEach(genre => {
         favoriteFeatures.genres[genre] = (favoriteFeatures.genres[genre] || 0) + 1;
       });
       favoriteFeatures.averageRating += movie.rating;
-      favoriteFeatures.recentYears += (movie.year > 2010) ? 1 : 0;
     });
 
-    // Step 3: Score all movies (simple "prediction")
+
     const scoredMovies = Movies.map(movie => {
-      if (favoriteMovieIds.includes(movie.id)) return null; // Skip favorites
-
-      let score = 0;
+      if (favoriteMovieIds.includes(movie.id))return null;//Pentru a nu analiza scorul fiecarui film favorit din nou, il anulam pe acesta pentru a verifica
+      //doar filmele care nu sunt deja favorite
+        
+        let score = 0;
       
-      // Genre match scoring
-      movie.genres.forEach(genre => {
-        score += favoriteFeatures.genres[genre] || 0;
-      });
+      //verificam care genuri coincid
+        movie.genres.forEach(genre => {
+          score += favoriteFeatures.genres[genre] || 0; //alternativa la return 0
+        });
 
-      // Rating similarity scoring
-      score += 10 - Math.abs(movie.rating - (favoriteFeatures.averageRating / favoriteMovies.length));
+        score += 10 - Math.abs(movie.rating - (favoriteFeatures.averageRating / favoriteMovies.length));
 
-      // Recent movies bonus
-      if (movie.year > 2010) score += 5;
+        return { ...movie, score };
 
-      return { ...movie, score };
-    }).filter(Boolean); // Remove nulls
+      
 
-    // Step 4: Sort by score and return top 5
-    return scoredMovies.sort((a, b) => b.score - a.score).slice(0, 5);
+      // ne asiguram ca nu recomandam filmele deja favorite/vizionate
+
+    }).filter(Boolean); //
+
+    return scoredMovies.slice(0,3); //returnam doar primele 3 filme cu cele mai mari scoruri
   };
 
   useEffect(() => {
     setRecommendations(getRecommendations());
-  }, [favoriteMovieIds]);
+  }, [favoriteMovieIds]); // asigura rerandarea si recalcularea scorurilor de fiecare data cand filmele favortie se schimba sau sunt adaugate
 
   return (
     <div>
