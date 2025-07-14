@@ -80,8 +80,8 @@ const Interface = () => {
         <div className='recommended'>
           <MLMovies 
             users={{
-              user1: [1, 2, 10],
-              user2: [3, 6, 22]
+              user1: [1, 6, 10],
+              user2: [3, 6, 27]
             }}
           />
         </div>
