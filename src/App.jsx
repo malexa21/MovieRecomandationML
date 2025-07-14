@@ -78,7 +78,12 @@ const Interface = () => {
         </div>
         <div className="blank"/>
         <div className='recommended'>
-          <MLMovies favoriteMovieIds={[1,2,10]}/>
+          <MLMovies 
+            users={{
+              user1: [1, 2, 10],
+              user2: [3, 6, 22]
+            }}
+          />
         </div>
       </div>
 

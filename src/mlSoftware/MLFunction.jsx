@@ -1,10 +1,11 @@
 
 import Movies from '../MoviesDataBase';
 
-const MLMovies = ({ favoriteMovieIds }) => {
-
+const MLMovies = ({ users }) => {
+  const allFavoriteIds = Object.values(users).flat(); //transforma obiectul de useri intr-o lista in care nu se repeta nicio valoare
+  //Object.values ia un obiect si il transforma intr-o lista fara chei, se putea face si o lista de liste pentru a evita folosirea
   const learnFromFavorites = () => {
-    const favoriteMovies = Movies.filter(movie => favoriteMovieIds.includes(movie.id));//filtreaza filmele favorite fara a crea un array pentru ele
+    const favoriteMovies = Movies.filter(movie => allFavoriteIds.includes(movie.id));//filtreaza filmele favorite fara a crea un array pentru ele
     
     const learnedData = {//obiect de invatare
       likedGenres: {},
@@ -42,7 +43,7 @@ const MLMovies = ({ favoriteMovieIds }) => {
     const learnedData = learnFromFavorites();
 
     return Movies
-      .filter(movie => !favoriteMovieIds.includes(movie.id)) // elimina favoritele
+      .filter(movie => !allFavoriteIds.includes(movie.id)) // elimina favoritele
       .map(movie => ({//creeaza o lista in care se afla doar filmele nefavorite
         ...movie, score: predictMovieScore(movie, learnedData) //invata scorul pentru urmatoarele utilizari
       }))
